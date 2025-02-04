@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Buatakun extends Model
 {
@@ -15,7 +16,9 @@ class Buatakun extends Model
 
     protected $hidden = ['password'];
 
-    protected $casts = [
-        'password' => 'hashed',
-    ];
+    // Mutator untuk otomatis hash password sebelum disimpan
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

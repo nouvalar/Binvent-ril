@@ -37,6 +37,8 @@ class BuatakunController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('buatakun')->with('success', 'Akun berhasil dibuat!');
+        return redirect()->route('buatakun.show')->with('success', 'Akun berhasil dibuat!');
     }
 }
+
+?>

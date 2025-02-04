@@ -94,13 +94,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @if (isset($users) && count($users) > 0)
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->role }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
                                     <tr>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role }}</td>
+                                        <td colspan="3">Tidak ada data akun karyawan.</td>
                                     </tr>
-                                @endforeach
+                                @endif
+
                             </tbody>
                         </table>
                     </div>
