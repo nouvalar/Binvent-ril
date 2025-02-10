@@ -90,12 +90,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="list-divider"></li>
+                        @if (session('pesan'))
+                            <script>
+                                alert("{{ session('pesan') }}");
+                            </script>
+                        @endif
                         <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
+                            <a href="#" class="sidebar-link" onclick="confirmLogout(event);">
                                 <i data-feather="log-out" class="feather-icon"></i>
                                 <span class="hide-menu">Logout</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </nav>
@@ -138,31 +145,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($buatakuns->isEmpty())
+                                            @if ($users->isEmpty())
                                                 <tr>
                                                     <td colspan="4" class="text-center">Belum ada data karyawan terbaru
                                                     </td>
                                                 </tr>
                                             @else
-                                                @foreach ($buatakuns as $akun)
+                                                @foreach ($users as $user)
                                                     <tr>
-                                                        <td>{{ $akun->name }}</td>
-                                                        <td>{{ $akun->email }}</td>
-                                                        <td>{{ ucfirst($akun->role) }}</td>
+                                                        <td>{{ $user->name }}</td>
+                                                        <td>{{ $user->email }}</td>
+                                                        <td>{{ $user->role }}</td>
                                                         <td>
-                                                            <!-- Tombol Edit yang membuka modal -->
                                                             <button type="button" class="btn btn-warning edit-btn"
-                                                                data-id="{{ $akun->id }}"
-                                                                data-name="{{ $akun->name }}"
-                                                                data-email="{{ $akun->email }}"
-                                                                data-role="{{ $akun->role }}" data-toggle="modal"
+                                                                data-id="{{ $user->id }}"
+                                                                data-name="{{ $user->name }}"
+                                                                data-email="{{ $user->email }}"
+                                                                data-role="{{ $user->role }}" data-toggle="modal"
                                                                 data-target="#editAkunModal">
                                                                 Edit
                                                             </button>
 
-
-
-                                                            <form action="{{ route('admin.delete', $akun->id) }}"
+                                                            <form action="{{ route('admin.delete', $user->id) }}"
                                                                 method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -195,25 +199,26 @@
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editAkunLabel">Edit Akun</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="editAkunForm" method="POST" action="">
+                    <form id="editAkunForm" method="POST" action="{{ route('admin.update', $user->id) }}">
                         @csrf
                         @method('PUT')
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAkunLabel">Edit Akun</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         <div class="modal-body">
+                            <!-- Hidden Input untuk ID -->
+                            <input type="hidden" id="edit-id" name="id">
+
                             <div class="form-group">
                                 <label for="edit-name">Nama</label>
-                                <input type="text" class="form-control" id="edit-name" name="name"
-                                    value="{{ old('name', $akun->name ?? '') }}" required>
+                                <input type="text" class="form-control" id="edit-name" name="name" required>
                             </div>
                             <div class="form-group">
                                 <label for="edit-email">Email</label>
-                                <input type="text" class="form-control" id="edit-email" name="email"
-                                    value="{{ old('email', $akun->email ?? '') }}"" required>
+                                <input type="email" class="form-control" id="edit-email" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="edit-role">Role</label>
@@ -231,26 +236,34 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            $(document).ready(function() {
-                $('.edit-btn').click(function() {
-                    var id = $(this).data('id');
-                    var name = $(this).data('name');
-                    var email = $(this).data('email');
-                    var role = $(this).data('role');
+    <script>
+        $(document).ready(function() {
+            $('.edit-btn').click(function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var email = $(this).data('email');
+                var role = $(this).data('role');
 
-                    console.log("Editing user with ID:", id); // Debugging
+                $('#edit-id').val(id);
+                $('#edit-name').val(name);
+                $('#edit-email').val(email);
+                $('#edit-role').val(role);
 
-                    $('#edit-id').val(id);
-                    $('#edit-name').val(name);
-                    $('#edit-email').val(email);
-                    $('#edit-role').val(role);
+                var formAction = "/admin/update/" + id;
+                console.log("Form action set to:", formAction); // Debugging
 
-                    var formAction = "/admin/update/" + id;
-                    console.log("Form action set to:", formAction); // Debugging
-
-                    $('#editAkunForm').attr('action', formAction);
-                });
+                $('#editAkunForm').attr('action', formAction);
             });
-        </script>
+        });
+    </script>
+
+    <script>
+        function confirmLogout(event) {
+            event.preventDefault();
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                document.getElementById('logout-form').submit();
+            }
+        }
+    </script>

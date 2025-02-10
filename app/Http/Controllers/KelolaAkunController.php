@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Buatakun;
+use App\Models\User;
 
 class KelolaAkunController extends Controller
 {
@@ -12,8 +12,8 @@ class KelolaAkunController extends Controller
      */
     public function index()
     {
-        $buatakuns = Buatakun::all(); // Mengambil semua data dari tabel buatakuns
-        return view('admin.kelolaakun', compact('buatakuns'));
+        $users = User::where('role', 'staff')->get();
+        return view('admin.kelolaakun', compact('users'));
     }
 
     /**
@@ -21,7 +21,7 @@ class KelolaAkunController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $akun = Buatakun::where('id', $id)->firstOrFail();
+        $akun = User::where('id', $id)->firstOrFail();
 
         $akun->update([
             'name' => $request->name,
@@ -37,7 +37,7 @@ class KelolaAkunController extends Controller
      */
     public function destroy($id)
     {
-        $akun = Buatakun::findOrFail($id);
+        $akun = User::findOrFail($id);
         $akun->delete();
 
         return redirect()->route('admin.kelolaakun')->with('success', 'Akun berhasil dihapus');

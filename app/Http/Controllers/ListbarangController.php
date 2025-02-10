@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Databarang;
-use App\Models\Buatakun; 
+use App\Models\User;
 
 class ListbarangController extends Controller
 {
@@ -47,7 +47,7 @@ class ListbarangController extends Controller
             'jumlahKomponen' => DataBarang::where('kategori', 'Komponen')->count(),
             'jumlahLogistik' => DataBarang::where('kategori', 'Logistik')->count(),
             'databarang' => DataBarang::all(),
-            'buatakuns' => Buatakun::where('role', 'staff')->get()
+            'users' => User::where('role', 'staff')->get()
         ];
 
         return view('admin.dashboardadmin', $data);

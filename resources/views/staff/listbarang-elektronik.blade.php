@@ -249,17 +249,14 @@
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
     </div>
+
+    <script>
+        function confirmLogout(event) {
+            event.preventDefault();
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                document.getElementById('logout-form').submit();
+            }
+        }
+    </script>

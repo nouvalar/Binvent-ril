@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use App\Models\BuatAkun;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -18,25 +20,33 @@ class LoginController extends Controller
     // Proses login
     public function login(Request $request)
     {
-        // Validasi input login
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Cek kredensial login
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user(); // Ambil data pengguna yang berhasil login
-            Session::put('user_role', $user->role); // Simpan role pengguna dalam session
-
-            // Redirect berdasarkan role
-            return ($user->role == 'admin') ? redirect('admin/dashboardadmin') : redirect('staff/dashboardstaff');
+        // Cek apakah model Buatakun bisa diakses
+        if (!class_exists(User::class)) {
+            dd("Model Buatakun tidak ditemukan");
         }
 
-        // Jika login gagal
-        return redirect()->back()
-            ->withErrors(['email' => 'Email dan password yang dimasukkan tidak sesuai.'])
-            ->withInput();
+        // Cek apakah email ada di tabel buatakuns
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            dd("User tidak ditemukan di buatakuns", $request->email);
+        }
+
+        // Validasi password
+        if (!Hash::check($request->password, $user->password)) {
+            dd("Password salah", $request->password);
+        }
+
+        // Jika lolos semua, lakukan login
+        Auth::login($user);
+        session()->put('user_role', $user->role);
+
+        return ($user->role == 'admin') ? redirect('admin/dashboardadmin') : redirect('staff/dashboardstaff');
     }
 
     public function logout(Request $request)

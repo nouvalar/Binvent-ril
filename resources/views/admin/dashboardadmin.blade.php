@@ -41,17 +41,6 @@
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
                     </ul>
-                    <ul class="navbar-nav float-right">
-                        <!-- User Profile -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <img src="{{ asset('back/assets/images/users/profile-pic.jpg') }}" alt="user"
-                                    class="rounded-circle" width="40">
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{{ Auth::user()->name }}</span></span>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </nav>
         </header>
@@ -157,7 +146,7 @@
                     <!-- *************************************************************** -->
                     <div class="card-group">
                         <!-- Elektronik -->
-                        <div class="card border-right" style="background-color: #038C65;">
+                        <div class="card border-right">
                             <div class="card-body">
                                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                                     <div>
@@ -176,7 +165,7 @@
                         </div>
 
                         <!-- Perkakas -->
-                        <div class="card border-right" style="background-color: #038C65;">
+                        <div class="card border-right">
                             <div class="card-body">
                                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                                     <div>
@@ -193,7 +182,7 @@
                         </div>
 
                         <!-- Komponen -->
-                        <div class="card border-right" style="background-color: #038C65;">
+                        <div class="card border-right">
                             <div class="card-body">
                                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                                     <div>
@@ -212,7 +201,7 @@
                         </div>
 
                         <!-- Logistik -->
-                        <div class="card" style="background-color: #038C65;">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                                     <div>
@@ -292,7 +281,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($buatakuns as $staff)
+                                                @foreach ($users as $staff)
                                                     <tr>
                                                         <td class="border-top-0 px-2 py-4 font-14 text-secondary">
                                                             {{ $staff->name }}
@@ -309,17 +298,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- *************************************************************** -->
-                    <!-- End Top Leader Table -->
-                    <!-- *************************************************************** -->
                 </div>
-                <footer class="footer text-center text-muted">
-                    All Rights Reserved by Adminmart. Designed and Developed by <a
-                        href="https://wrappixel.com">WrapPixel</a>.
-                </footer>
-                <!-- ============================================================== -->
-                <!-- End footer -->
-                <!-- ============================================================== -->
             </div>
         </div>
     </div>
