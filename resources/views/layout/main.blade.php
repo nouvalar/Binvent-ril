@@ -1,77 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="ltr" lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dashboard Admin">
+    <meta name="author" content="Admin">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('back/assets/images/logo-bulet.png') }}">
     <title>Dashboard Admin</title>
-    <!-- Bootstrap CSS -->
-    <link rel="icon" href="{{ asset('assets/img/logojg.png') }}" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('back/assets/extra-libs/c3/c3.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('back/assets/libs/chartist/dist/chartist.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('back/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet">
+    <link href="{{ asset('back/dist/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('back/dist/css/style2.css') }}?v={{ time() }}" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .subtitle {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .sidebar {
-            background-color: #022859;
-            color: white;
-            height: 100vh;
-        }
-
-        .sidebar .nav-link {
-            color: #adb5bd;
-        }
-
-        .sidebar .nav-link.active {
-            color: white;
-            background-color: #022859;
-        }
-
-        .top-bar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .box {
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: white;
-            padding: 20px;
-        }
-
-        .table th {
-            background-color: rgba(169, 169, 169, 0.5);
-            /* Warna abu pudar */
-            color: #333;
-            /* Warna teks di header */
-            font-weight: bold;
-        }
-
-        .table tbody tr td {
-            background-color: rgba(169, 169, 169, 0.1);
-            /* Warna abu muda pudar untuk isi tabel */
+        .dark-logo,
+        .light-logo {
+            width: 150px;
+            height: auto;
         }
     </style>
 </head>
 
 <body>
-
     <!-- Main Content -->
     <div class="content">
         @yield('contents')
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap JS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- jQuery harus di-load terlebih dahulu -->
+    <script src="{{ asset('back/assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('back/assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('back/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Feather Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
+
+    <!-- Sidebar dan UI Scripts -->
+    <script src="{{ asset('back/dist/js/app-style-switcher.js') }}"></script>
+    <script src="{{ asset('back/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('back/dist/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('back/dist/js/custom.min.js') }}"></script>
+
+    <!-- Dashboard Charts -->
+    <script src="{{ asset('back/assets/extra-libs/c3/d3.min.js') }}"></script>
+    <script src="{{ asset('back/assets/extra-libs/c3/c3.min.js') }}"></script>
+    <script src="{{ asset('back/assets/libs/chartist/dist/chartist.min.js') }}"></script>
+    <script src="{{ asset('back/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
+    <script src="{{ asset('back/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('back/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('back/dist/js/pages/dashboards/dashboard1.min.js') }}"></script>
+
+    <!-- Inisialisasi Feather Icons -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            feather.replace();
+        });
+    </script>
+
+    <!-- Inisialisasi Chartist hanya jika elemen tersedia -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let chartElement = document.querySelector(".ct-chart");
+            if (chartElement) {
+                new Chartist.Line(".ct-chart", {
+                    labels: [1, 2, 3, 4],
+                    series: [
+                        [12, 9, 7, 8]
+                    ]
+                });
+            } else {
+                console.warn("Chartist: Elemen chart tidak ditemukan.");
+            }
+        });
+    </script>
 </body>
 
 </html>

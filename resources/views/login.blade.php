@@ -20,7 +20,7 @@
                  <br>
             </div>
             <div class="form-group">
-                <input type="password" placeholder="Kata Sandi" id="password" name="password" required style="width: 300px; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                <input type="password" placeholder="Masukkan NIP" id="password" name="password" required style="width: 300px; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
                 <br>
             </div>
             <button type="submit">LOG IN</button>

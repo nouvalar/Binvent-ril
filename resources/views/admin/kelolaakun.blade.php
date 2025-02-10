@@ -1,172 +1,256 @@
 @extends('layout.main')
 
 @section('content')
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 sidebar p-3">
-                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo Perusahaan" style="width: 150px;">
-                <div>
-                    <div class="subtitle">Selamat Datang di Binvent</div>
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
+                    <div class="navbar-brand">
+                        <a href="/admin/dashboardadmin">
+                            <b class="logo-icon">
+                                <img src="{{ asset('back/assets/images/logo-binayasa-warna.png') }}" alt="homepage"
+                                    class="dark-logo" />
+                            </b>
+                        </a>
+                    </div>
                 </div>
-                <p></p>
-                <nav class="nav flex-column">
-                    <a href="/admin/dashboardadmin" class="nav-link active">Dashboard</a>
-                    <a href="/admin/buatakun" class="nav-link">Buat Akun Karyawan</a>
-                    <a href="/admin/kelolaakun" class="nav-link">Kelola Akun Karyawan</a>
-                    <a href="/admin/editstock" class="nav-link">Edit Stok Barang</a>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1"></ul>
+                    <ul class="navbar-nav float-right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <img src="{{ asset('back/assets/images/users/profile-pic.jpg') }}" alt="user"
+                                    class="rounded-circle" width="40">
+                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span>
+                                    <span class="text-dark">{{ Auth::user()->name }}</span></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- sidebar.html -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <div class="scroll-sidebar" data-sidebarbg="skin6">
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link sidebar-link" href="/admin/dashboardadmin" aria-expanded="false">
+                                <i data-feather="home" class="feather-icon"></i>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Aplikasi</span></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <i data-feather="package" class="feather-icon"></i>
+                                <span class="hide-menu">Logistik</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="/admin/listbarang" aria-expanded="false">
+                                        <span class="hide-menu">List Barang</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/admin/inputbarang" class="sidebar-link">
+                                        <span class="hide-menu">Input Barang</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <i data-feather="user" class="feather-icon"></i>
+                                <span class="hide-menu">Kelola Akun Staff</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item">
+                                    <a href="/admin/kelolaakun" class="sidebar-link">
+                                        <span class="hide-menu">Akun Staff</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/admin/buatakun" class="sidebar-link">
+                                        <span class="hide-menu">Buat Akun Staff</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="list-divider"></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
+                                <i data-feather="log-out" class="feather-icon"></i>
+                                <span class="hide-menu">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
             </div>
-            <!-- Konten Halaman -->
-            <div class="col-md-10">
-                <!-- Top Bar -->
-                <div class="row top-bar py-3 px-4 align-items-center">
-                    <div class="col-md-6">
-                        <h4>Kelola Akun Karyawan</h4>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <input type="text" class="form-control d-inline-block w-50" placeholder="Search...">
-                    </div>
-                </div>
+        </aside>
 
-                <!-- Form Akun Karyawan -->
-                <div class="row mt-4 px-4">
-                    <div class="col-12 mb-4">
-                        <div class="box">
-                            <h5>Edit Akun Karyawan</h5>
-
-                            <!-- Form Edit Akun Karyawan -->
-                            <form action="{{ route('update-akun-karyawan', $user->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Nama Karyawan</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Masukkan Nama Karyawan" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Masukkan Email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" id="role" name="role" required>
-                                        <option value="admin">Admin</option>
-                                        <option value="user">Staff</option>
-                                    </select>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Edit Akun</button>
-                            </form>
-
-                            <!--Form Hapus-->
-                            <form action="{{ route('hapus-akun-karyawan', $user->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Hapus Akun</button>
-                            </form>
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h4 class="page-title text-dark font-weight-medium mb-1">Akun Staff</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="/admin/dashboardadmin"
+                                            class="text-muted">Dashboard</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Kelola Akun Staff
+                                    </li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Box untuk Daftar Karyawan -->
-                <div class="col-12 mb-4">
-                    <div class="box">
-                        <h2>List Karyawan</h2>
-                        <table class="table mt-3">
-                            <thead>
-                                <tr>
-                                    <th>Nama Karyawan</th>
-                                    <th>Aktivitas Terakhir</th>
-                                    <th class="aksi">Aksi</th>
-                                </tr>
-                            </thead>
-                        </table>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="default_order" class="table table-striped table-bordered display no-wrap"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($buatakuns->isEmpty())
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Belum ada data karyawan terbaru
+                                                    </td>
+                                                </tr>
+                                            @else
+                                                @foreach ($buatakuns as $akun)
+                                                    <tr>
+                                                        <td>{{ $akun->name }}</td>
+                                                        <td>{{ $akun->email }}</td>
+                                                        <td>{{ ucfirst($akun->role) }}</td>
+                                                        <td>
+                                                            <!-- Tombol Edit yang membuka modal -->
+                                                            <button type="button" class="btn btn-warning edit-btn"
+                                                                data-id="{{ $akun->id }}"
+                                                                data-name="{{ $akun->name }}"
+                                                                data-email="{{ $akun->email }}"
+                                                                data-role="{{ $akun->role }}" data-toggle="modal"
+                                                                data-target="#editAkunModal">
+                                                                Edit
+                                                            </button>
+
+
+
+                                                            <form action="{{ route('admin.delete', $akun->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus akun ini?')">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        loadUsers(); // Ambil data karyawan saat halaman dimuat
-                    });
+            </div>
+        </div>
 
-                    async function loadUsers() {
-                        try {
-                            let response = await fetch("http://127.0.0.1:8000/api/users");
-                            let users = await response.json();
+        <!-- Alert Edit Akun -->
+        <div id="updateSuccessAlert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+            Akun berhasil diperbaiki!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Modal Edit Akun -->
+        <div class="modal fade" id="editAkunModal" tabindex="-1" role="dialog" aria-labelledby="editAkunLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAkunLabel">Edit Akun</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="editAkunForm" method="POST" action="">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="edit-name">Nama</label>
+                                <input type="text" class="form-control" id="edit-name" name="name"
+                                    value="{{ old('name', $akun->name ?? '') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email</label>
+                                <input type="text" class="form-control" id="edit-email" name="email"
+                                    value="{{ old('email', $akun->email ?? '') }}"" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-role">Role</label>
+                                <select class="form-control" id="edit-role" name="role">
+                                    <option value="admin">Admin</option>
+                                    <option value="staff">Staff</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-                            let tableBody = document.getElementById("userTableBody");
-                            tableBody.innerHTML = ""; // Bersihkan isi tabel sebelum ditambahkan ulang
+        <script>
+            $(document).ready(function() {
+                $('.edit-btn').click(function() {
+                    var id = $(this).data('id');
+                    var name = $(this).data('name');
+                    var email = $(this).data('email');
+                    var role = $(this).data('role');
 
-                            users.forEach(user => {
-                                let row = `<tr>
-                                    <td>${user.name}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.role}</td>
-                                    <td>${user.last_active}</td>
-                                    <td>
-                                        <button onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.role}')">Edit</button>
-                                        <button onclick="deleteUser(${user.id})">Hapus</button>
-                                    </td>
-                                </tr>`;
-                                tableBody.innerHTML += row;
-                            });
-                        } catch (error) {
-                            console.error("Error fetching users:", error);
-                        }
-                    }
+                    console.log("Editing user with ID:", id); // Debugging
 
-                    async function deleteUser(id) {
-                        if (!confirm("Yakin ingin menghapus akun ini?")) return;
+                    $('#edit-id').val(id);
+                    $('#edit-name').val(name);
+                    $('#edit-email').val(email);
+                    $('#edit-role').val(role);
 
-                        try {
-                            let response = await fetch(`http://127.0.0.1:8000/api/users/${id}`, {
-                                method: "DELETE",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                }
-                            });
+                    var formAction = "/admin/update/" + id;
+                    console.log("Form action set to:", formAction); // Debugging
 
-                            let result = await response.json();
-                            alert(result.message);
-                            loadUsers(); // Refresh daftar user setelah menghapus
-                        } catch (error) {
-                            console.error("Error deleting user:", error);
-                        }
-                    }
-
-                    function editUser(id, name, email, role) {
-                        document.getElementById("editId").value = id;
-                        document.getElementById("editName").value = name;
-                        document.getElementById("editEmail").value = email;
-                        document.getElementById("editRole").value = role;
-                    }
-
-                    async function updateUser() {
-                        let id = document.getElementById("editId").value;
-                        let name = document.getElementById("editName").value;
-                        let email = document.getElementById("editEmail").value;
-                        let role = document.getElementById("editRole").value;
-
-                        try {
-                            let response = await fetch(`http://127.0.0.1:8000/api/users/${id}`, {
-                                method: "PUT",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    name,
-                                    email,
-                                    role
-                                })
-                            });
-
-                            let result = await response.json();
-                            alert(result.message);
-                            loadUsers(); // Refresh daftar user setelah edit
-                        } catch (error) {
-                            console.error("Error updating user:", error);
-                        }
-                    }
-                </script>
+                    $('#editAkunForm').attr('action', formAction);
+                });
+            });
+        </script>

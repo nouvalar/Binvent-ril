@@ -10,7 +10,7 @@ class Buatakun extends Model
 {
     use HasFactory;
 
-    protected $table = 'buatakuns'; // Pastikan ini sesuai dengan tabel di database
+    protected $table = 'buatakuns'; 
 
     protected $fillable = ['name', 'email', 'password', 'role'];
 
