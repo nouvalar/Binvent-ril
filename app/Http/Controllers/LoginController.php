@@ -30,12 +30,21 @@ class LoginController extends Controller
             Session::put('user_role', $user->role); // Simpan role pengguna dalam session
 
             // Redirect berdasarkan role
-            return ($user->role == 'admin') ? redirect('admin/dashboardadmin') : redirect('/staff-dashboard');
+            return ($user->role == 'admin') ? redirect('admin/dashboardadmin') : redirect('staff/dashboardstaff');
         }
 
         // Jika login gagal
         return redirect()->back()
             ->withErrors(['email' => 'Email dan password yang dimasukkan tidak sesuai.'])
             ->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('pesan', 'Logout berhasil!');
     }
 }

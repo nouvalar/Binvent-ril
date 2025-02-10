@@ -106,11 +106,19 @@
                             </ul>
                         </li>
                         <li class="list-divider"></li>
+                        @if (session('pesan'))
+                            <script>
+                                alert("{{ session('pesan') }}");
+                            </script>
+                        @endif
                         <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
+                            <a href="#" class="sidebar-link" onclick="confirmLogout(event);">
                                 <i data-feather="log-out" class="feather-icon"></i>
                                 <span class="hide-menu">Logout</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </nav>
@@ -324,4 +332,13 @@
                 console.error("Feather Icons gagal dimuat.");
             }
         });
+    </script>
+
+    <script>
+        function confirmLogout(event) {
+            event.preventDefault();
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                document.getElementById('logout-form').submit();
+            }
+        }
     </script>
