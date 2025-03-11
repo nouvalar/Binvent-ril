@@ -7,6 +7,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        Commands\BackupDatabase::class,
+        Commands\RestoreDatabase::class,
+    ];
+
     /**
      * Define the application's command schedule.
      *
@@ -15,7 +20,24 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Backup database setiap hari jam 00:00
+        $schedule->command('db:backup')
+                ->daily()
+                ->at('00:00')
+                ->appendOutputTo(storage_path('logs/backup.log'));
+
+        // Hapus backup yang lebih dari 30 hari
+        $schedule->call(function () {
+            $path = storage_path('app/backup');
+            $files = glob($path . '/*.sql');
+            $now = time();
+            
+            foreach ($files as $file) {
+                if ($now - filemtime($file) >= 30 * 24 * 60 * 60) {
+                    unlink($file);
+                }
+            }
+        })->daily();
     }
 
     /**
