@@ -15,7 +15,7 @@
     <!-- Custom CSS -->
     <link href="{{ asset('back/dist/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('back/dist/css/style2.css') }}?v={{ time() }}" rel="stylesheet">
-    
+
     <!-- Stack untuk CSS tambahan -->
     @stack('css')
 

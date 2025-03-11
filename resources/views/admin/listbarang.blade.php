@@ -2,6 +2,35 @@
 
 @push('css')
 <link href="{{ asset('back/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
+<link href="{{ asset('back/assets/css/datatables-custom.css') }}" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.5em 1em;
+        margin: 0 0.2em;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #2962ff;
+        color: white !important;
+        border-color: #2962ff;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .dataTables_wrapper .dataTables_info {
+        padding-top: 0.85em;
+    }
+    .dataTables_wrapper .dataTables_paginate {
+        padding-top: 0.5em;
+    }
+    .table td, .table th {
+        vertical-align: middle;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -268,9 +297,11 @@
                                                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $item->id }}">
                                                         Edit
                                                     </button>
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }})">
-                                                        Delete
-                                                    </button>
+                                                    <form action="{{ route('admin.deletebarang', $item->id) }}" method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
 
@@ -335,19 +366,6 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <ul class="pagination float-right">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -359,46 +377,12 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('back/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        // Inisialisasi DataTable
-        if (!$.fn.DataTable.isDataTable('#zero_config')) {
-            $('#zero_config').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
-                }
-            });
-        }
-    });
-
     function confirmLogout(event) {
         event.preventDefault();
         if (confirm("Apakah Anda yakin ingin logout?")) {
             document.getElementById('logout-form').submit();
-        }
-    }
-
-    function confirmDelete(id) {
-        if (confirm("Apakah Anda yakin ingin menghapus barang ini?")) {
-            var form = document.createElement('form');
-            form.action = '/admin/deletebarang/' + id;
-            form.method = 'POST';
-            form.style.display = 'none';
-
-            var csrf = document.createElement('input');
-            csrf.type = 'hidden';
-            csrf.name = '_token';
-            csrf.value = '{{ csrf_token() }}';
-            form.appendChild(csrf);
-
-            var method = document.createElement('input');
-            method.type = 'hidden';
-            method.name = '_method';
-            method.value = 'DELETE';
-            form.appendChild(method);
-
-            document.body.appendChild(form);
-            form.submit();
         }
     }
 </script>

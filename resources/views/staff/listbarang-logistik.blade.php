@@ -2,6 +2,10 @@
 
 @section('title', 'STAFF | Dashboard')
 
+@push('css')
+<link href="{{ asset('back/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
 
     <div class="preloader">
@@ -203,20 +207,21 @@
                                             @foreach ($databarang as $item1)
                                                 <tr>
                                                     <td>
-                                                        @if (trim($item1->status) === 'In Progress')
-                                                            <span class="badge badge-light-warning">In Progress</span>
-                                                        @elseif (trim($item1->status) === 'Closed')
-                                                            <span class="badge badge-light-danger">Closed</span>
-                                                        @elseif (trim($item1->status) === 'Opened')
-                                                            <span class="badge badge-light-success">Opened</span>
+                                                        @if (trim($item1->status) === 'Belum Digunakan')
+                                                            <span class="badge badge-light-primary">Belum Digunakan</span>
+                                                        @elseif (trim($item1->status) === 'Sangat Baik')
+                                                            <span class="badge badge-light-success">Sangat Baik</span>
+                                                        @elseif (trim($item1->status) === 'Baik')
+                                                            <span class="badge badge-light-info">Baik</span>
+                                                        @elseif (trim($item1->status) === 'Rusak')
+                                                            <span class="badge badge-light-danger">Rusak</span>
                                                         @else
-                                                            <span
-                                                                class="badge badge-light-secondary">{{ $item1->status ?? 'Unknown' }}</span>
+                                                            <span class="badge badge-light-secondary">{{ $item1->status ?? 'Unknown' }}</span>
                                                         @endif
                                                     </td>
                                                     <td>{{ $item1->nama_barang }}</td>
                                                     <td>{{ $item1->kategori }}</td>
-                                                    <td>{{ $item1->jumlah }}</td>
+                                                    <td>{{ number_format($item1->jumlah) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -260,3 +265,10 @@
             }
         }
     </script>
+
+@endsection
+
+@push('scripts')
+<script src="{{ asset('back/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('back/assets/js/datatables-config.js') }}"></script>
+@endpush

@@ -53,6 +53,29 @@ class ListbarangController extends Controller
         return view('admin.dashboardadmin', $data);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_barang' => 'required',
+            'kategori' => 'required',
+            'jumlah' => 'required|numeric',
+            'status' => 'required'
+        ]);
+
+        // Normalize kategori to ensure consistent capitalization
+        $kategori = ucfirst(strtolower($request->kategori));
+
+        // Create new Databarang
+        Databarang::create([
+            'nama_barang' => $request->nama_barang,
+            'kategori' => $kategori,
+            'jumlah' => $request->jumlah,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('admin.listbarang')->with('success', 'Barang berhasil ditambahkan!');
+    }
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -65,9 +88,12 @@ class ListbarangController extends Controller
         $barang = Databarang::findOrFail($id);
         $oldNama = $barang->nama_barang;
         
+        // Normalize kategori to ensure consistent capitalization
+        $kategori = ucfirst(strtolower($request->kategori));
+        
         $barang->update([
             'nama_barang' => $request->nama_barang,
-            'kategori' => $request->kategori,
+            'kategori' => $kategori,
             'jumlah' => $request->jumlah,
             'status' => $request->status
         ]);

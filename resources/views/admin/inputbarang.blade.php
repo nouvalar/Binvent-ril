@@ -183,10 +183,10 @@
                                                 <div class="form-group">
                                                     <select name="kategori" class="form-control" required>
                                                         <option value="" disabled selected>Pilih Kategori</option>
-                                                        <option value="elektronik">Elektronik</option>
+                                                        <option value="Elektronik">Elektronik</option>
                                                         <option value="Perkakas">Perkakas</option>
                                                         <option value="Komponen">Komponen</option>
-                                                        <option value="logistik">Logistik</option>
+                                                        <option value="Logistik">Logistik</option>
                                                     </select>
                                                 </div>
                                             </div>

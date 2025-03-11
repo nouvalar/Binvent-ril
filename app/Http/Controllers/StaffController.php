@@ -33,7 +33,7 @@ class StaffController extends Controller
     public function listBarangKomponen()
     {
         $data = [
-            'databarang' => DataBarang::where('kategori', 'komponen')->get(),
+            'databarang' => DataBarang::where('kategori', 'Komponen')->get(),
         ];
 
         return view('staff.listbarang-komponen', $data);
@@ -42,7 +42,7 @@ class StaffController extends Controller
     public function listBarangLogistik()
     {
         $data = [
-            'databarang' => DataBarang::where('kategori', 'logistik')->get(),
+            'databarang' => DataBarang::where('kategori', 'Logistik')->get(),
         ];
 
         return view('staff.listbarang-logistik', $data);
@@ -51,7 +51,7 @@ class StaffController extends Controller
     public function listBarangPerkakas()
     {
         $data = [
-            'databarang' => DataBarang::where('kategori', 'perkakas')->get(),
+            'databarang' => DataBarang::where('kategori', 'Perkakas')->get(),
         ];
 
         return view('staff.listbarang-perkakas', $data);
