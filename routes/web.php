@@ -49,6 +49,9 @@ Route::middleware(['role:admin'])->group(function () {
     });
 
     Route::get('/admin/listbarang', [ListbarangController::class, 'index'])->name('admin.listbarang');
+    Route::get('/admin/listbarang/pdf', [ListbarangController::class, 'generatePDF'])->name('admin.listbarang.pdf');
+    Route::put('/admin/updatebarang/{id}', [ListbarangController::class, 'update'])->name('admin.updatebarang');
+    Route::delete('/admin/deletebarang/{id}', [ListbarangController::class, 'destroy'])->name('admin.deletebarang');
 
     Route::get('/admin/inputbarang', function () {
         return view('admin.inputbarang');

@@ -32,7 +32,7 @@
 
     <!-- Main Content -->
     <div class="content">
-        @yield('contents')
+        @yield('content')
     </div>
     
     <!-- jQuery harus di-load terlebih dahulu -->

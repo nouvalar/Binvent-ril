@@ -13,11 +13,11 @@
     <title>Dashboard Admin</title>
 
     <!-- Custom CSS -->
-    <link href="{{ asset('back/assets/extra-libs/c3/c3.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('back/assets/libs/chartist/dist/chartist.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('back/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet">
     <link href="{{ asset('back/dist/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('back/dist/css/style2.css') }}?v={{ time() }}" rel="stylesheet">
+    
+    <!-- Stack untuk CSS tambahan -->
+    @stack('css')
 
     <style>
         .dark-logo,
@@ -31,10 +31,10 @@
 <body>
     <!-- Main Content -->
     <div class="content">
-        @yield('contents')
+        @yield('content')
     </div>
 
-    <!-- jQuery harus di-load terlebih dahulu -->
+    <!-- Core Scripts -->
     <script src="{{ asset('back/assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('back/assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('back/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
