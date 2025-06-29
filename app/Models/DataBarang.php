@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class DataBarang extends Model
 {
     use HasFactory;
 
-    protected $table = 'databarang';
+    protected $connection = 'mongodb';
+    protected $collection = 'databarang';
 
     protected $fillable = [
         'nama_barang',
